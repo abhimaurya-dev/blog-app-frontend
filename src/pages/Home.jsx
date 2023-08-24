@@ -1,6 +1,7 @@
 import NavigationBar from "../layouts/NavigationBar";
 import Modal from "../layouts/Modal";
 import { useState } from "react";
+import { GetStartedForm } from "../features/getStarted/index.js";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,13 +16,7 @@ const Home = () => {
       <NavigationBar getStartedHandler={getStartedHandler} />
       {isModalOpen && (
         <Modal closeModalHandler={closeModalHandler}>
-          <div className="w-[20rem]">
-            {" "}
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque
-            expedita praesentium sed itaque, natus animi nostrum perspiciatis
-            enim laboriosam sit, cumque voluptatem porro ipsum sunt? Omnis
-            dolores totam iure delectus.
-          </div>
+          <GetStartedForm />
         </Modal>
       )}
     </div>
