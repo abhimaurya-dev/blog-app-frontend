@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const isSystemThemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-const NavigationBar = () => {
+const NavigationBar = (props) => {
   const [theme, setTheme] = useState(() => {
     if (localStorage.getItem("theme")) {
       return localStorage.getItem("theme");
@@ -53,7 +53,11 @@ const NavigationBar = () => {
               </span>
             )}
           </button>
-          <button className="border-2 border-green-700 px-4 lg:px-5 py-1 lg:py-2 rounded-3xl bg-green-700 text-white">
+          <button
+            className="border-2 border-green-700 px-4 lg:px-5 py-1 lg:py-2 rounded-3xl bg-green-700 text-white"
+            // eslint-disable-next-line react/prop-types
+            onClick={props.getStartedHandler}
+          >
             Get Started
           </button>
         </div>
