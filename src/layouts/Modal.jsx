@@ -8,7 +8,7 @@ const Modal = ({ children, closeModalHandler }) => {
         className="fixed top-0 left-0 right-0 bottom-0 bg-gray-700 dark:bg-gray-100 opacity-50 z-8"
         onClick={closeModalHandler}
       ></div>
-      <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-8">
+      <div className="fixed top-[50%] w-[22rem] md:w-auto left-[50%] translate-x-[-50%] translate-y-[-50%] z-8">
         <div className="rounded-md p-5 bg-gray-100 dark:bg-gray-700 relative">
           <button className="absolute top-2 right-2">
             <span

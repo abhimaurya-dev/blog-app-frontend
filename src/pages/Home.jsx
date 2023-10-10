@@ -2,9 +2,15 @@ import NavigationBar from "../layouts/NavigationBar";
 import Modal from "../layouts/Modal";
 import { useState } from "react";
 import { GetStartedForm } from "../features/getStarted/index.js";
+import { SignUpForm } from "../features/signUp/index.js";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [signUpWithEmail, setSignUpWithEmail] = useState(false);
+
+  const signUpWithEmailHandler = () => {
+    setSignUpWithEmail((currentState) => !currentState);
+  };
   const closeModalHandler = () => {
     setIsModalOpen((currentState) => !currentState);
   };
@@ -16,7 +22,11 @@ const Home = () => {
       <NavigationBar getStartedHandler={getStartedHandler} />
       {isModalOpen && (
         <Modal closeModalHandler={closeModalHandler}>
-          <GetStartedForm />
+          {signUpWithEmail ? (
+            <SignUpForm />
+          ) : (
+            <GetStartedForm signUpWithEmailHandler={signUpWithEmailHandler} />
+          )}
         </Modal>
       )}
     </div>

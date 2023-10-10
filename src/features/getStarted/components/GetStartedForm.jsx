@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import googleSvg from "../assets/google.svg";
 import githubSvgDark from "../assets/github-dark.svg";
 
-const GetStartedForm = () => {
+const GetStartedForm = ({ signUpWithEmailHandler }) => {
   return (
-    <div className="flex flex-col justify-center items-center w-[20rem] md:w-[35rem]">
+    <div className="flex flex-col justify-center items-center w-[17rem] md:w-[35rem]">
       <p className="text-4xl">Join Scribblrspace</p>
       <div className="mb-10 mt-20">
         <button className="pl-5 pr-7 mb-5 w-[17rem] py-2 text-lg flex gap-4 justify-between items-center border-2 border-gray-700 dark:border-gray-100 rounded-full">
@@ -19,7 +20,10 @@ const GetStartedForm = () => {
           </span>
           Sign up with Github
         </button>
-        <button className="pl-5 px-7 mb-5 w-[17rem] py-2 text-lg flex gap-4 justify-between items-center border-2 border-gray-700 dark:border-gray-100 rounded-full">
+        <button
+          className="pl-5 px-7 mb-5 w-[17rem] py-2 text-lg flex gap-4 justify-between items-center border-2 border-gray-700 dark:border-gray-100 rounded-full"
+          onClick={signUpWithEmailHandler}
+        >
           <span className="material-symbols-outlined">mail</span>Sign up with
           Email
         </button>
