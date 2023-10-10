@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 
-const SignUpForm = () => {
+const SignUpForm = ({ allSignupOptionsHandler }) => {
   const [email, setEmail] = useState("");
 
   const emailOnChangeHandler = (e) => {
@@ -10,8 +11,8 @@ const SignUpForm = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-[17rem] md:w-[35rem]">
-      <p className=" text-2xl md:text-3xl mt-20">Sign up with email</p>
-      <div className="flex flex-col justify-center items-center mt-10 mb-16">
+      <p className=" text-2xl md:text-3xl mt-14">Sign up with email</p>
+      <div className="flex flex-col justify-center items-center mt-10 mb-14">
         <p className=" text-md md:text-xl">
           Enter your email address to create an
         </p>
@@ -28,6 +29,15 @@ const SignUpForm = () => {
         />
         <button className="flex justify-between items-center border-none rounded-full bg-green-700 mt-7 px-10 md:px-11 py-2 md:py-3 text-white">
           Continue
+        </button>
+        <button
+          className="flex justify-between items-center border-none text-green-500 mt-4 text-sm"
+          onClick={allSignupOptionsHandler}
+        >
+          <span className="material-symbols-outlined text-md pt-[0.2rem]">
+            chevron_left
+          </span>
+          All signup option
         </button>
       </div>
     </div>

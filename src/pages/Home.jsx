@@ -13,17 +13,23 @@ const Home = () => {
   };
   const closeModalHandler = () => {
     setIsModalOpen((currentState) => !currentState);
+    setSignUpWithEmail((currentState) => !currentState);
   };
   const getStartedHandler = () => {
     setIsModalOpen((currentState) => !currentState);
   };
+
+  const allSignupOptionsHandler = () => {
+    setSignUpWithEmail(false);
+  };
+
   return (
     <div className="dark:bg-gray-800 bg-gray-100 h-screen overflow-x-hidden">
       <NavigationBar getStartedHandler={getStartedHandler} />
       {isModalOpen && (
         <Modal closeModalHandler={closeModalHandler}>
           {signUpWithEmail ? (
-            <SignUpForm />
+            <SignUpForm allSignupOptionsHandler={allSignupOptionsHandler} />
           ) : (
             <GetStartedForm signUpWithEmailHandler={signUpWithEmailHandler} />
           )}
