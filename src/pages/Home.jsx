@@ -3,6 +3,7 @@ import Modal from "../layouts/Modal";
 import { useState } from "react";
 import { GetStartedForm } from "../features/getStarted/index.js";
 import { SignUpForm } from "../features/signUp/index.js";
+import { LoginForm } from "../features/login/index";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,7 +46,7 @@ const Home = () => {
         <Modal closeModalHandler={closeModalHandler}>
           {login ? (
             signInWithEmail ? (
-              false
+              <LoginForm />
             ) : (
               <GetStartedForm
                 signUpWithEmailHandler={signUpWithEmailHandler}
