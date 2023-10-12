@@ -2,19 +2,27 @@
 import { useState } from "react";
 import GetNameAndPassword from "./getNameAndPassword";
 
+const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 const SignUpForm = ({ allSignupOptionsHandler }) => {
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [error, setError] = useState({});
 
+  const onErrorHandler = (errType, errMessage) => {
+    setError((currentState) => ({
+      [errType]: errMessage,
+      ...currentState,
+    }));
+  };
+
   const emailSubmitHandler = () => {
     if (email.length == 0) {
-      setError((currentState) => ({
-        ...currentState,
-        email: "Please enter a valid email",
-      }));
+      onErrorHandler("email", "Please enter a valid email");
+      return;
+    }
+    if (!emailPattern.test(email)) {
+      onErrorHandler("email", "Please enter a valid email");
       return;
     }
     setEmailSubmitted(true);
@@ -25,14 +33,6 @@ const SignUpForm = ({ allSignupOptionsHandler }) => {
     }
     // TODO : Add email Validator
     setEmail(e.target.value);
-  };
-
-  const nameOnChangeHandler = (e) => {
-    setName(e.target.value);
-  };
-
-  const passwordOnChangeHandler = (e) => {
-    setPassword(e.target.value);
   };
 
   return (
@@ -52,11 +52,12 @@ const SignUpForm = ({ allSignupOptionsHandler }) => {
             <input
               className="border-b-2 border-green-700 bg-transparent mt-2 outline-none text-center py-1 w-[17rem] md:w-[20rem]"
               type="text"
+              id="email"
               name="email"
-              value={null}
+              autoComplete="on"
               onChange={emailOnChangeHandler}
             />
-            {Object.keys(error).length != 0 && (
+            {error.email && (
               <p className="text-red-700 dark:text-red-400 mt-2">
                 {error.email}
               </p>
@@ -70,8 +71,9 @@ const SignUpForm = ({ allSignupOptionsHandler }) => {
           </>
         ) : (
           <GetNameAndPassword
-            nameOnChangeHandler={nameOnChangeHandler}
-            passwordOnChangeHandler={passwordOnChangeHandler}
+            error={error}
+            onErrorHandler={onErrorHandler}
+            email={email}
           />
         )}
         <button
