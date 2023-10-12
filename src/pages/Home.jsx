@@ -7,20 +7,35 @@ import { SignUpForm } from "../features/signUp/index.js";
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [signUpWithEmail, setSignUpWithEmail] = useState(false);
+  const [signInWithEmail, setSignInWithEmail] = useState(false);
+  const [login, setLogin] = useState(false);
 
   const signUpWithEmailHandler = () => {
-    setSignUpWithEmail((currentState) => !currentState);
+    setSignUpWithEmail(true);
+  };
+  const signInWithEmailHandler = () => {
+    setSignInWithEmail(true);
   };
   const closeModalHandler = () => {
-    setIsModalOpen((currentState) => !currentState);
-    setSignUpWithEmail((currentState) => !currentState);
+    setIsModalOpen(false);
+    setSignUpWithEmail(false);
+    setLogin(false);
+    setSignInWithEmail(false);
   };
   const getStartedHandler = () => {
-    setIsModalOpen((currentState) => !currentState);
+    setIsModalOpen(true);
   };
 
   const allSignupOptionsHandler = () => {
     setSignUpWithEmail(false);
+  };
+
+  const onSignupHandler = () => {
+    setLogin(false);
+  };
+
+  const onLoginHandler = () => {
+    setLogin(true);
   };
 
   return (
@@ -28,10 +43,28 @@ const Home = () => {
       <NavigationBar getStartedHandler={getStartedHandler} />
       {isModalOpen && (
         <Modal closeModalHandler={closeModalHandler}>
-          {signUpWithEmail ? (
+          {login ? (
+            signInWithEmail ? (
+              false
+            ) : (
+              <GetStartedForm
+                signUpWithEmailHandler={signUpWithEmailHandler}
+                signInWithEmailHandler={signInWithEmailHandler}
+                onSignupHandler={onSignupHandler}
+                onLoginHandler={onLoginHandler}
+                login={login}
+              />
+            )
+          ) : signUpWithEmail ? (
             <SignUpForm allSignupOptionsHandler={allSignupOptionsHandler} />
           ) : (
-            <GetStartedForm signUpWithEmailHandler={signUpWithEmailHandler} />
+            <GetStartedForm
+              signUpWithEmailHandler={signUpWithEmailHandler}
+              signInWithEmailHandler={signInWithEmailHandler}
+              onSignupHandler={onSignupHandler}
+              onLoginHandler={onLoginHandler}
+              login={login}
+            />
           )}
         </Modal>
       )}
