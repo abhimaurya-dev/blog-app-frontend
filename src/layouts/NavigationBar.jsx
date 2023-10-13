@@ -1,5 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout, selectAuth } from "../redux/reducers/authSlice";
+import axios from "axios";
 
 const isSystemThemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -11,7 +15,11 @@ const NavigationBar = (props) => {
     return isSystemThemeDark.matches ? "dark" : "light";
   });
 
+  const auth = useSelector(selectAuth);
+  const dispatch = useDispatch();
+
   useEffect(() => {
+    // console.log(auth);
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
@@ -24,6 +32,14 @@ const NavigationBar = (props) => {
     setTheme((currentTheme) => {
       return currentTheme === "dark" ? "light" : "dark";
     });
+  };
+
+  const onLogoutHandler = async () => {
+    await axios("/user/logout", {
+      method: "POST",
+      withCredentials: true,
+    });
+    dispatch(logout());
   };
 
   return (
@@ -56,9 +72,11 @@ const NavigationBar = (props) => {
           <button
             className="border-2 border-green-700 px-4 lg:px-5 py-1 lg:py-2 rounded-3xl bg-green-700 text-white"
             // eslint-disable-next-line react/prop-types
-            onClick={props.getStartedHandler}
+            onClick={
+              auth.isLoggedIn ? onLogoutHandler : props.getStartedHandler
+            }
           >
-            Get Started
+            {auth.isLoggedIn ? "Logout" : "Get Started"}
           </button>
         </div>
       </div>

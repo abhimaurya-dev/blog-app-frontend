@@ -46,7 +46,7 @@ const Home = () => {
         <Modal closeModalHandler={closeModalHandler}>
           {login ? (
             signInWithEmail ? (
-              <LoginForm />
+              <LoginForm closeModalHandler={closeModalHandler} />
             ) : (
               <GetStartedForm
                 signUpWithEmailHandler={signUpWithEmailHandler}

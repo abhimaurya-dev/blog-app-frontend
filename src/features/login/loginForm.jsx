@@ -1,14 +1,23 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
-import GetLoginEmail from "./getLoginEmail";
-import GetLoginPassword from "./getLoginPassword";
+import GetLoginEmail from "./components/getLoginEmail";
+import GetLoginPassword from "./components/getLoginPassword";
+import { useSelector, useDispatch } from "react-redux";
+import { login, selectAuth } from "../../redux/reducers/authSlice";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const LoginForm = () => {
+const LoginForm = ({ closeModalHandler }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [error, setError] = useState({});
+  const [showSpinner, setShowSpinner] = useState(false);
+
+  const auth = useSelector(selectAuth);
+  const dispatch = useDispatch();
 
   const onErrorHandler = (errType, errMessage) => {
     setError((currentState) => ({
@@ -28,10 +37,17 @@ const LoginForm = () => {
     }
     setEmailSubmitted(true);
   };
+
+  const goBackToEmailHandler = () => {
+    setEmailSubmitted(false);
+  };
+
   const emailOnChangeHandler = (e) => {
-    // console.log(error);
     if (error.email) {
       delete error.email;
+    }
+    if (error.login) {
+      delete error.login;
     }
     // TODO : Add email Validator
     setEmail(e.target.value);
@@ -41,19 +57,36 @@ const LoginForm = () => {
     if (error.password) {
       delete error.password;
     }
+    if (error.login) {
+      delete error.login;
+    }
     setPassword(e.target.value);
   };
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (password.length === 0) {
       onErrorHandler("password", "Enter a valid password");
       return;
     }
-    console.log({
-      email: email,
-      password: password,
-    });
+    try {
+      setShowSpinner(true);
+      const response = await axios.post(
+        "/user/login",
+        {
+          email: email,
+          password: password,
+        },
+        { withCredentials: true }
+      );
+      dispatch(login(response.data.user));
+      setShowSpinner(false);
+      closeModalHandler();
+      // console.log(auth.user);
+    } catch (err) {
+      setShowSpinner(false);
+      onErrorHandler("login", err.response.data.message);
+    }
   };
 
   return (
@@ -61,16 +94,22 @@ const LoginForm = () => {
       {!emailSubmitted ? (
         <GetLoginEmail
           error={error}
+          email={email}
           emailOnChangeHandler={emailOnChangeHandler}
           emailSubmitHandler={emailSubmitHandler}
         />
       ) : (
         <GetLoginPassword
-          passwordOnChangeHandler={passwordOnChangeHandler}
           error={error}
+          password={password}
+          showSpinner={showSpinner}
           onSubmitHandler={onSubmitHandler}
+          goBackToEmailHandler={goBackToEmailHandler}
+          passwordOnChangeHandler={passwordOnChangeHandler}
         />
       )}
+
+      {auth.isLoggedIn && <Navigate to="/home" replace={true} />}
     </div>
   );
 };
