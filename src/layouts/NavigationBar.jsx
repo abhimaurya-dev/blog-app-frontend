@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, selectAuth } from "../redux/reducers/authSlice";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const isSystemThemeDark = window.matchMedia("(prefers-color-scheme: dark)");
@@ -17,6 +18,7 @@ const NavigationBar = (props) => {
 
   const auth = useSelector(selectAuth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // console.log(auth);
@@ -40,6 +42,7 @@ const NavigationBar = (props) => {
       withCredentials: true,
     });
     dispatch(logout());
+    navigate("/");
   };
 
   return (

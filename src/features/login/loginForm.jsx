@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GetLoginEmail from "./components/getLoginEmail";
 import GetLoginPassword from "./components/getLoginPassword";
 import { useSelector, useDispatch } from "react-redux";
 import { login, selectAuth } from "../../redux/reducers/authSlice";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -18,6 +18,7 @@ const LoginForm = ({ closeModalHandler }) => {
 
   const auth = useSelector(selectAuth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onErrorHandler = (errType, errMessage) => {
     setError((currentState) => ({
@@ -25,6 +26,12 @@ const LoginForm = ({ closeModalHandler }) => {
       ...currentState,
     }));
   };
+
+  useEffect(() => {
+    if (auth.user._id) {
+      navigate(`/home/${auth.user._id}`);
+    }
+  }, [auth, navigate]);
 
   const emailSubmitHandler = () => {
     if (email.length == 0) {
@@ -82,7 +89,6 @@ const LoginForm = ({ closeModalHandler }) => {
       dispatch(login(response.data.user));
       setShowSpinner(false);
       closeModalHandler();
-      // console.log(auth.user);
     } catch (err) {
       setShowSpinner(false);
       onErrorHandler("login", err.response.data.message);
@@ -108,8 +114,6 @@ const LoginForm = ({ closeModalHandler }) => {
           passwordOnChangeHandler={passwordOnChangeHandler}
         />
       )}
-
-      {auth.isLoggedIn && <Navigate to="/home" replace={true} />}
     </div>
   );
 };

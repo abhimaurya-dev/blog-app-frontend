@@ -4,7 +4,7 @@ import GetNameAndPassword from "./getNameAndPassword";
 
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const SignUpForm = ({ allSignupOptionsHandler }) => {
+const SignUpForm = ({ allSignupOptionsHandler, closeModalHandler }) => {
   const [email, setEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [error, setError] = useState({});
@@ -74,6 +74,7 @@ const SignUpForm = ({ allSignupOptionsHandler }) => {
             error={error}
             onErrorHandler={onErrorHandler}
             email={email}
+            closeModalHandler={closeModalHandler}
           />
         )}
         <button

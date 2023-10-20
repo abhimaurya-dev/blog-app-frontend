@@ -57,7 +57,10 @@ const Home = () => {
               />
             )
           ) : signUpWithEmail ? (
-            <SignUpForm allSignupOptionsHandler={allSignupOptionsHandler} />
+            <SignUpForm
+              allSignupOptionsHandler={allSignupOptionsHandler}
+              closeModalHandler={closeModalHandler}
+            />
           ) : (
             <GetStartedForm
               signUpWithEmailHandler={signUpWithEmailHandler}

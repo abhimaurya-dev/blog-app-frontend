@@ -1,11 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { register, selectAuth } from "../../../redux/reducers/authSlice";
+import { useNavigate } from "react-router-dom";
 /* eslint-disable react/prop-types */
 
 const namePattern = /^[A-Za-z\s'-]+$/;
 
-const GetNameAndPassword = ({ error, onErrorHandler, email }) => {
+const generateUsername = (name) => {
+  const username = name.replace(/\s/g, "").toLowerCase();
+  const randomNum = Math.floor(Math.random() * 10000);
+
+  const finalUsername = `${username}${randomNum}`;
+
+  return finalUsername;
+};
+
+const GetNameAndPassword = ({
+  error,
+  onErrorHandler,
+  email,
+  closeModalHandler,
+}) => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [finalUsername, setFinalUsername] = useState("");
+
+  const auth = useSelector(selectAuth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (auth.user._id) {
+      navigate(`/home/${auth.user._id}`);
+    }
+  }, [auth, navigate]);
 
   const nameOnChangeHandler = (e) => {
     if (error.name) {
@@ -21,7 +50,7 @@ const GetNameAndPassword = ({ error, onErrorHandler, email }) => {
     setPassword(e.target.value);
   };
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (name.length === 0) {
       onErrorHandler("name", "Enter a valid name");
@@ -39,11 +68,24 @@ const GetNameAndPassword = ({ error, onErrorHandler, email }) => {
       onErrorHandler("password", "Enter a valid password");
       return;
     }
-    console.log({
+    setFinalUsername(generateUsername(name));
+
+    const user = {
       email: email,
       name: name,
       password: password,
-    });
+      username: finalUsername,
+    };
+    try {
+      const response = await axios.post("/user/SignUp", user, {
+        withCredentials: true,
+      });
+      dispatch(register(response.data.user));
+      closeModalHandler();
+    } catch (error) {
+      setFinalUsername(generateUsername(name));
+      onSubmitHandler();
+    }
   };
 
   return (
