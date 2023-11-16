@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout, selectAuth } from "../redux/reducers/authSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import logo from "../assets/images/logo.png";
 
 const isSystemThemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -50,11 +51,7 @@ const NavigationBar = (props) => {
       <div className="flex flex-row justify-between items-center pt-3 lg:pt-5 px-3 lg:px-48 border-b-[1px] pb-3 lg:pb-5">
         <Link to={"/"}>
           <div className="rounded-3xl px-2 lg:px-4 dark:bg-gray-100">
-            <img
-              src="src\assets\images\logo.png"
-              className=" h-8 lg:h-10 text-gray-100"
-              alt="Logo"
-            />
+            <img src={logo} className=" h-8 lg:h-10 text-gray-100" alt="Logo" />
           </div>
         </Link>
         <div className="flex flex-row gap-3 lg:gap-5 items-center">
