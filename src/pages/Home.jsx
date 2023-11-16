@@ -4,6 +4,7 @@ import { useState } from "react";
 import { GetStartedForm } from "../features/getStarted/index.js";
 import { SignUpForm } from "../features/signUp/index.js";
 import { LoginForm } from "../features/login/index";
+import PostsFeed from "../features/postFeed/postsFeed.jsx";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,6 +73,9 @@ const Home = () => {
           )}
         </Modal>
       )}
+      <div className="px-3 lg:px-48 border-b-[1px] mb-5">
+        <PostsFeed />
+      </div>
     </div>
   );
 };
