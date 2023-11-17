@@ -7,7 +7,10 @@ import Home from "./pages/Home";
 import Post from "./pages/Post";
 import CreateNewPost from "./pages/CreateNewPost";
 
-axios.defaults.baseURL = "http://localhost:5000/";
+// eslint-disable-next-line no-undef
+axios.defaults.baseURL =
+  // eslint-disable-next-line no-undef
+  process.env.REACT_APP_PROD_BASE_URL || process.env.REACT_APP_DEV_BASE_URL;
 
 function App() {
   const dispatch = useDispatch();
