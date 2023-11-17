@@ -6,8 +6,34 @@ import { logout, selectAuth } from "../redux/reducers/authSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/images/logo.png";
+import user from "../assets/images/user.png";
+import LoginToContinue from "../components/LoginToContinue";
 
 const isSystemThemeDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+const NavigationDropDown = ({ onLogoutHandler }) => {
+  return (
+    <div className="dropdown dropdown-bottom dropdown-end">
+      <label
+        tabIndex={0}
+        className="btn m-1 bg-gray-100 shadow-none hover:bg-gray-200 dark:bg-gray-800 border-none hover:dark:bg-gray-800 "
+      >
+        <img src={user} height="40rem" width="40rem" alt="" />
+      </label>
+      <ul
+        tabIndex={0}
+        className="dropdown-content z-[1] menu p-2 bg-gray-800 text-green-700  dark:bg-white shadow rounded-box w-52"
+      >
+        <li className="border-b-2 hover:dark:bg-gray-50">
+          <a>Profile</a>
+        </li>
+        <li>
+          <a onClick={onLogoutHandler}>Logout</a>
+        </li>
+      </ul>
+    </div>
+  );
+};
 
 const NavigationBar = (props) => {
   const [theme, setTheme] = useState(() => {
@@ -16,6 +42,7 @@ const NavigationBar = (props) => {
     }
     return isSystemThemeDark.matches ? "dark" : "light";
   });
+  const [cannotWrite, setCannotWrite] = useState(false);
 
   const auth = useSelector(selectAuth);
   const dispatch = useDispatch();
@@ -46,6 +73,19 @@ const NavigationBar = (props) => {
     navigate("/");
   };
 
+  const handleWrite = () => {
+    if (auth.isLoggedIn) {
+      setCannotWrite(false);
+      navigate(`/${auth.user._id}/createNewPost`);
+    } else {
+      setCannotWrite(true);
+    }
+  };
+
+  const writeModalCloseHandler = () => {
+    setCannotWrite(false);
+  };
+
   return (
     <>
       <div className="flex flex-row justify-between items-center pt-3 lg:pt-5 px-3 lg:px-48 border-b-[1px] pb-3 lg:pb-5">
@@ -69,15 +109,29 @@ const NavigationBar = (props) => {
               </span>
             )}
           </button>
-          <button
-            className="border-2 border-green-700 px-4 lg:px-5 py-1 lg:py-2 rounded-3xl bg-green-700 text-white"
-            // eslint-disable-next-line react/prop-types
-            onClick={
-              auth.isLoggedIn ? onLogoutHandler : props.getStartedHandler
-            }
-          >
-            {auth.isLoggedIn ? "Logout" : "Get Started"}
+          <button className="pl-2" onClick={handleWrite}>
+            <span className="material-symbols-outlined pt-1 text-green-700 dark:text-gray-200 text-4xl">
+              edit_square
+            </span>
           </button>
+          {cannotWrite && (
+            <LoginToContinue writeModalCloseHandler={writeModalCloseHandler} />
+          )}
+          {auth.isLoggedIn ? (
+            <div>
+              <NavigationDropDown onLogoutHandler={onLogoutHandler} />
+            </div>
+          ) : (
+            <button
+              className="border-2 border-green-700 px-4 lg:px-5 py-1 lg:py-2 rounded-3xl bg-green-700 text-white"
+              // eslint-disable-next-line react/prop-types
+              onClick={
+                auth.isLoggedIn ? onLogoutHandler : props.getStartedHandler
+              }
+            >
+              {auth.isLoggedIn ? "Logout" : "Get Started"}
+            </button>
+          )}
         </div>
       </div>
     </>

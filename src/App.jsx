@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setPosts } from "./redux/reducers/authSlice";
 import Home from "./pages/Home";
 import Post from "./pages/Post";
+import CreateNewPost from "./pages/CreateNewPost";
 
 axios.defaults.baseURL = "http://localhost:5000/";
 
@@ -23,6 +24,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route exact path="/home/:userId" element={<Home />} />
       <Route exact path="/post/:postId" element={<Post />} />
+      <Route exact path="/:userId/createNewPost" element={<CreateNewPost />} />
     </Routes>
   );
 }
