@@ -2,8 +2,8 @@
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setPosts } from "./redux/reducers/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuth, setPosts } from "./redux/reducers/authSlice";
 import Home from "./pages/Home";
 import Post from "./pages/Post";
 import CreateNewPost from "./pages/CreateNewPost";
@@ -14,6 +14,10 @@ axios.defaults.baseURL =
     : import.meta.env.VITE_APP_DEV_BASE_URL;
 
 function App() {
+  const auth = useSelector(selectAuth);
+  const accessToken = auth.user.token;
+
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   const dispatch = useDispatch();
   const getPosts = async () => {
     const posts = await axios.get("/post/all");
