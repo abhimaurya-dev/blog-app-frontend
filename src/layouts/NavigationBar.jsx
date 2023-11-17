@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/images/logo.png";
 import user from "../assets/images/user.png";
-import LoginToContinue from "../components/LoginToContinue";
+import LoginToContinue from "../components/loginToContinue.jsx";
 
 const isSystemThemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
