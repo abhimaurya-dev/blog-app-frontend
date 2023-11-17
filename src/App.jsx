@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
@@ -7,13 +8,11 @@ import Home from "./pages/Home";
 import Post from "./pages/Post";
 import CreateNewPost from "./pages/CreateNewPost";
 
-// eslint-disable-next-line no-undef
 axios.defaults.baseURL =
-  import.meta.env.NODE_ENV === "production"
+  process.env.NODE_ENV === "production"
     ? import.meta.env.VITE_APP_PROD_BASE_URL
     : import.meta.env.VITE_APP_DEV_BASE_URL;
 
-console.log(axios.defaults.baseURL);
 function App() {
   const dispatch = useDispatch();
   const getPosts = async () => {
