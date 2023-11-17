@@ -10,7 +10,8 @@ import CreateNewPost from "./pages/CreateNewPost";
 // eslint-disable-next-line no-undef
 axios.defaults.baseURL =
   // eslint-disable-next-line no-undef
-  process.env.REACT_APP_PROD_BASE_URL || process.env.REACT_APP_DEV_BASE_URL;
+  import.meta.env.VITE_APP_PROD_BASE_URL ||
+  import.meta.env.VITE_APP_DEV_BASE_URL;
 
 function App() {
   const dispatch = useDispatch();
