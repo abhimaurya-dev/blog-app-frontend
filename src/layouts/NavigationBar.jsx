@@ -8,6 +8,7 @@ import axios from "axios";
 import logo from "../assets/images/logo.png";
 import user from "../assets/images/user.png";
 import LoginToContinue from "../components/loginToContinue.jsx";
+import { axiosHeader } from "../utils/axiosHeader.js";
 
 const isSystemThemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -65,9 +66,9 @@ const NavigationBar = (props) => {
   };
 
   const onLogoutHandler = async () => {
-    await axios("/user/logout", {
-      method: "POST",
+    await axios.post("/user/logout", {
       withCredentials: true,
+      axiosHeader,
     });
     dispatch(logout());
     navigate("/");

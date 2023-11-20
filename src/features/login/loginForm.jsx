@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { login, selectAuth } from "../../redux/reducers/authSlice";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { axiosHeader } from "../../utils/axiosHeader";
 
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -84,7 +85,7 @@ const LoginForm = ({ closeModalHandler }) => {
           email: email,
           password: password,
         },
-        { withCredentials: true }
+        { withCredentials: true, axiosHeader }
       );
       dispatch(login(response.data.user));
       setShowSpinner(false);

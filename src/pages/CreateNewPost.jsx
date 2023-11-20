@@ -2,6 +2,7 @@ import axios from "axios";
 import NavigationBar from "../layouts/NavigationBar";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { axiosHeader } from "../utils/axiosHeader";
 
 const CreateNewPost = () => {
   const [title, setTitle] = useState("");
@@ -28,7 +29,7 @@ const CreateNewPost = () => {
     await axios.post(
       "/post/create",
       { title: title, content: description },
-      { withCredentials: true }
+      { withCredentials: true, axiosHeader }
     );
     navigate(`/home/${userId}`);
   };

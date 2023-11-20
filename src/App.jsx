@@ -7,6 +7,7 @@ import { selectAuth, setPosts } from "./redux/reducers/authSlice";
 import Home from "./pages/Home";
 import Post from "./pages/Post";
 import CreateNewPost from "./pages/CreateNewPost";
+import { axiosHeader } from "./utils/axiosHeader";
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -20,7 +21,10 @@ function App() {
   axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   const dispatch = useDispatch();
   const getPosts = async () => {
-    const posts = await axios.get("/post/all");
+    const posts = await axios.get("/post/all", {
+      withCredentials: true,
+      axiosHeader,
+    });
     dispatch(setPosts(posts.data.allPosts));
   };
   useEffect(() => {
