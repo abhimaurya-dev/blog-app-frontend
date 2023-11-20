@@ -18,7 +18,7 @@ function App() {
   const auth = useSelector(selectAuth);
   const accessToken = auth.user.token;
 
-  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  // axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   const dispatch = useDispatch();
   const getPosts = async () => {
     const posts = await axios.get("/post/all", {

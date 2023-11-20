@@ -2,7 +2,9 @@ import axios from "axios";
 import NavigationBar from "../layouts/NavigationBar";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { axiosHeader } from "../utils/axiosHeader";
+// import { axiosHeader } from "../utils/axiosHeader";
+import { useSelector } from "react-redux";
+import { selectAuth } from "../redux/reducers/authSlice";
 
 const CreateNewPost = () => {
   const [title, setTitle] = useState("");
@@ -14,6 +16,8 @@ const CreateNewPost = () => {
   });
   const navigate = useNavigate();
   const { userId } = useParams();
+  const auth = useSelector(selectAuth);
+  const accessToken = auth.user.token;
 
   const postHandler = async (e) => {
     e.preventDefault();
@@ -29,7 +33,13 @@ const CreateNewPost = () => {
     await axios.post(
       "/post/create",
       { title: title, content: description },
-      { withCredentials: true, axiosHeader }
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
     );
     navigate(`/home/${userId}`);
   };

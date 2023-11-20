@@ -8,7 +8,7 @@ import axios from "axios";
 import logo from "../assets/images/logo.png";
 import user from "../assets/images/user.png";
 import LoginToContinue from "../components/loginToContinue.jsx";
-import { axiosHeader } from "../utils/axiosHeader.js";
+// import { axiosHeader } from "../utils/axiosHeader.js";
 
 const isSystemThemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -48,6 +48,7 @@ const NavigationBar = (props) => {
   const auth = useSelector(selectAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const accessToken = auth.user.token;
 
   useEffect(() => {
     // console.log(auth);
@@ -68,7 +69,10 @@ const NavigationBar = (props) => {
   const onLogoutHandler = async () => {
     await axios.post("/user/logout", {
       withCredentials: true,
-      axiosHeader,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
     dispatch(logout());
     navigate("/");
