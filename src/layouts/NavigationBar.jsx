@@ -67,10 +67,9 @@ const NavigationBar = (props) => {
   };
 
   const onLogoutHandler = async () => {
-    await axios.post("/user/logout", {
+    await axios.post("/user/logout", null, {
       withCredentials: true,
       headers: {
-        Accept: "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
     });

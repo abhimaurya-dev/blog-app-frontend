@@ -2,7 +2,6 @@ import axios from "axios";
 import NavigationBar from "../layouts/NavigationBar";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-// import { axiosHeader } from "../utils/axiosHeader";
 import { useSelector } from "react-redux";
 import { selectAuth } from "../redux/reducers/authSlice";
 
@@ -42,6 +41,7 @@ const CreateNewPost = () => {
       }
     );
     navigate(`/home/${userId}`);
+    window.location.reload();
   };
 
   const returnToHomeHandler = () => {
