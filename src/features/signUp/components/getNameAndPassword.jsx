@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { register, selectAuth } from "../../../redux/reducers/authSlice";
 import { useNavigate } from "react-router-dom";
-import { axiosHeader } from "../../../utils/axiosHeader";
+// import { axiosHeader } from "../../../utils/axiosHeader";
 /* eslint-disable react/prop-types */
 
 const namePattern = /^[A-Za-z\s'-]+$/;
@@ -80,7 +80,7 @@ const GetNameAndPassword = ({
     try {
       const response = await axios.post("/user/SignUp", user, {
         withCredentials: true,
-        axiosHeader,
+        headers: { Accept: "application/json" },
       });
       dispatch(register(response.data.user));
       closeModalHandler();

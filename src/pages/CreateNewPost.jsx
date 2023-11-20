@@ -36,7 +36,7 @@ const CreateNewPost = () => {
       {
         withCredentials: true,
         headers: {
-          "Content-Type": "application/json",
+          Accept: "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
       }

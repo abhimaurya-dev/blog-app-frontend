@@ -70,7 +70,7 @@ const NavigationBar = (props) => {
     await axios.post("/user/logout", {
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json",
+        Accept: "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
     });
